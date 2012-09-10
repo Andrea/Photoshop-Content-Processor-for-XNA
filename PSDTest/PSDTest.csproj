@@ -145,9 +145,9 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="Content\PSDTestContent.contentproj">
-      <Project>{70B0713A-F163-4961-870D-BCCCCB9655D8}</Project>
-      <Name>PSDTestContent %28Content%29</Name>
+    <ProjectReference Include="..\PsdContent\PsdContent.contentproj">
+      <Project>{65E4E44A-11B2-430C-8F9F-6CB94915A258}</Project>
+      <Name>PsdContent</Name>
       <XnaReferenceType>Content</XnaReferenceType>
     </ProjectReference>
   </ItemGroup>
