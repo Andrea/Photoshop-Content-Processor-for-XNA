@@ -4,3 +4,22 @@ obj
 
 # mstest test results
 TestResults
+_ReSharper.*
+_dotCover.*
+*.csproj.user
+*.ReSharper.user
+*.resharper
+*.suo
+*.cache
+*~
+*.swp
+*.cachefile
+*dat
+*.crc
+*.Version
+assets
+build
+content
+*.user
+cachefile*.*
+src/packages
