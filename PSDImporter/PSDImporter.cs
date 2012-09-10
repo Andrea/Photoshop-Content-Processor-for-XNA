@@ -1,13 +1,7 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.ComponentModel;
-
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content.Pipeline;
 using Microsoft.Xna.Framework.Content.Pipeline.Graphics;
-using Microsoft.Xna.Framework.Graphics.PackedVector;
 using PSDImporter.PSDFile;
 
 namespace PSDImporter
@@ -27,11 +21,11 @@ namespace PSDImporter
 
 		public override Texture2DContent Import(string filename, ContentImporterContext context)
 		{
-			PsdFile psdFile = new PsdFile();
+			var psdFile = new PsdFile();
 			psdFile.Load(filename);
 
-			Texture2DContent content = new Texture2DContent();
-			PixelBitmapContent<Color> bitmap = new PixelBitmapContent<Color>(psdFile.Columns, psdFile.Rows);
+			var content = new Texture2DContent();
+			var bitmap = new PixelBitmapContent<Color>(psdFile.Columns, psdFile.Rows);
 
 			byte[] pixelData = new byte[bitmap.Width * bitmap.Height * 4];
 			List<Color[]> layers = new List<Color[]>();
