@@ -44,7 +44,6 @@ namespace PSDImporter.PSDFile
 
 		/////////////////////////////////////////////////////////////////////////// 
 
-#if !TEST
 		private struct PixelData
 		{
 			public byte Blue;
@@ -52,7 +51,7 @@ namespace PSDImporter.PSDFile
 			public byte Red;
 			public byte Alpha;
 		}
-#endif
+
 
 		/////////////////////////////////////////////////////////////////////////// 
 
@@ -60,53 +59,6 @@ namespace PSDImporter.PSDFile
 		{
 			Bitmap bitmap = new Bitmap(psdFile.Columns, psdFile.Rows, PixelFormat.Format32bppArgb);
 
-#if TEST
-      for (int y = 0; y < psdFile.Rows; y++)
-      {
-        int rowIndex = y * psdFile.Columns;
-
-        for (int x = 0; x < psdFile.Columns; x++)
-        {
-          int pos = rowIndex + x;
-
-          Color pixelColor=GetColor(psdFile,pos);
-
-          bitmap.SetPixel(x, y, pixelColor);
-        }
-      }
-
-#else
-
-			var rectangle = new Rectangle(0, 0, bitmap.Width, bitmap.Height);
-			BitmapData bd = bitmap.LockBits(rectangle, ImageLockMode.ReadWrite, bitmap.PixelFormat);
-
-			unsafe
-			{
-				byte* pCurrRowPixel = (byte*)bd.Scan0.ToPointer();
-
-				for (int y = 0; y < psdFile.Rows; y++)
-				{
-					int rowIndex = y * psdFile.Columns;
-					PixelData* pCurrPixel = (PixelData*)pCurrRowPixel;
-					for (int x = 0; x < psdFile.Columns; x++)
-					{
-						int pos = rowIndex + x;
-
-						Color pixelColor = GetColor(psdFile, pos);
-
-						pCurrPixel->Alpha = 255;
-						pCurrPixel->Red = pixelColor.R;
-						pCurrPixel->Green = pixelColor.G;
-						pCurrPixel->Blue = pixelColor.B;
-
-						pCurrPixel += 1;
-					}
-					pCurrRowPixel += bd.Stride;
-				}
-			}
-
-			bitmap.UnlockBits(bd);
-#endif
 
 			return bitmap;
 		}
@@ -173,23 +125,7 @@ namespace PSDImporter.PSDFile
 
 			Bitmap bitmap = new Bitmap(layer.Rect.Width, layer.Rect.Height, PixelFormat.Format32bppArgb);
 
-#if TEST
-      for (int y = 0; y < layer.Rect.Height; y++)
-      {
-        int rowIndex = y * layer.Rect.Width;
 
-        for (int x = 0; x < layer.Rect.Width; x++)
-        {
-          int pos = rowIndex + x;
-
-          //Color pixelColor=GetColor(psdFile,pos);
-          Color pixelColor = Color.FromArgb(x % 255, Color.ForestGreen);// 255, 128, 0);
-
-          bitmap.SetPixel(x, y, pixelColor);
-        }
-      }
-
-#else
 
 			Rectangle r = new Rectangle(0, 0, bitmap.Width, bitmap.Height);
 			BitmapData bd = bitmap.LockBits(r, ImageLockMode.ReadWrite, bitmap.PixelFormat);
@@ -229,7 +165,6 @@ namespace PSDImporter.PSDFile
 			}
 
 			bitmap.UnlockBits(bd);
-#endif
 
 			return bitmap;
 		}
